@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -9,13 +10,13 @@ public class DriveTrain implements Subsystem {
     // never be accessed directly outside this subsystem
     private final Spark leftMotor = new Spark(1);
     private final Spark rightMotor = new Spark(2);
+    private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
     
     public DriveTrain() {
         leftMotor.setInverted(true);
     }
 
-    public void drive(double leftSpeed, double rightSpeed) {
-        leftMotor.set(leftSpeed);
-        rightMotor.set(rightSpeed);
+    public void drive(double xSpeed, double zRotation) {
+        robotDrive.arcadeDrive(xSpeed, zRotation);
     }
 }

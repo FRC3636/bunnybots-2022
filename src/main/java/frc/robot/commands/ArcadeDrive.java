@@ -2,12 +2,17 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.Constants;
+import frc.robot.DriveConfig;
 
 public class ArcadeDrive implements Command {
     private final DriveTrain drivetrain;
+    private final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
+    private final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
 
     public ArcadeDrive(DriveTrain drivetrain) {
         this.drivetrain = drivetrain;
@@ -19,10 +24,15 @@ public class ArcadeDrive implements Command {
         // drivetrain.resetEncoders();
     }
 
+    @Override
     public void execute() {
-        // this method is called periodically while the command is running
-        // we can use it to accelerate the DriveTrain forward
-        drivetrain.drive(0.5, 0.5);
+        DriveConfig config = DriveConfig.getCurrent();
+
+        double speed = joystickL.getY();
+        double turn = joystickR .getX();
+
+        
+        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity());
     }
 
     public void end(boolean interrupted) {
@@ -32,8 +42,6 @@ public class ArcadeDrive implements Command {
     }
 
     public boolean isFinished() {
-        // if the DriveTrain has traveled more than 1 meter,
-        // the command is finished
         return false;
     }
 
