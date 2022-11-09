@@ -15,4 +15,18 @@ package frc.robot;
 public final class Constants {
     public static final int JOYSTICK_LEFT_PORT = 0;
     public static final int JOYSTICK_RIGHT_PORT = 1;
+
+    public static final class Intake {
+
+        public static final int ACTUATION_MOTOR = 12;
+        public static final int ACTUATION_LIMIT_SWITCH_BOTTOM = 0;
+
+        public static final double ACTUATION_MOTOR_GEAR_RATIO = 125;
+        public static final double ACTUATION_DEGREES = 70;
+
+        public static final double ACTUATION_MOVE_DOWN_SPEED = 0.25;
+        public static final double ACTUATION_MOVE_UP_SPEED = 0.25;
+        public static final double ACTUATION_HOLD_SPEED = 0.10;
+
+    }
 }
