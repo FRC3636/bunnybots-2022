@@ -13,7 +13,7 @@ public class DriveTrain implements Subsystem {
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
     
     public DriveTrain() {
-        leftMotor.setInverted(true);
+        leftMotor.setInverted(true);    
     }
 
     public void drive(double xSpeed, double zRotation) {

@@ -9,6 +9,7 @@ public class DriveConfig {
 
     static {
         PRESETS.put(DEFAULT_PRESET_NAME, new DriveConfig(1, 1));
+        PRESETS.put("person_2", new DriveConfig(2, 2));
     }
 
     /**
@@ -19,10 +20,9 @@ public class DriveConfig {
         return PRESETS.get(name);
     }
 
-    // TODO: Return something other then the default config
     public static DriveConfig getCurrent() {
         // may be bad to get shuffleboard values constantly
-        return PRESETS.get(DEFAULT_PRESET_NAME);
+        return PRESETS.getOrDefault(RobotContainer.drivePresetsChooser.getSelected(), PRESETS.get(DEFAULT_PRESET_NAME));
     }
 
     private final double speedSensitivity;

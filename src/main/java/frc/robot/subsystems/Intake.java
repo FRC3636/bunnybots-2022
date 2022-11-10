@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
             Constants.Intake.ACTUATION_LIMIT_SWITCH_BOTTOM
     );
 
-    private Position position = Position.Up;
+    private Position position = Position.Coast;
 
     // fixme: no protection against going backwards
     @Override
@@ -70,5 +70,6 @@ public class Intake extends SubsystemBase {
         Up,
         Down,
         HoldUp,
+        Coast,
     }
 }

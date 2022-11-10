@@ -7,6 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.DriveTrain;
@@ -24,12 +28,19 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
   public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+  public static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
+  public static SendableChooser<String> drivePresetsChooser;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    drivePresetsChooser = new SendableChooser<String>();
+        drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
+        drivePresetsChooser.addOption("Person 2", "person_2");
+        driveSettings.add("Drive Presets", drivePresetsChooser)
+                .withWidget(BuiltInWidgets.kComboBoxChooser);
   }
 
   /**
