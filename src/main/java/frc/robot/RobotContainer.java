@@ -37,10 +37,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     drivePresetsChooser = new SendableChooser<String>();
-        drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
-        drivePresetsChooser.addOption("Person 2", "person_2");
-        driveSettings.add("Drive Presets", drivePresetsChooser)
-                .withWidget(BuiltInWidgets.kComboBoxChooser);
+    drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
+    drivePresetsChooser.addOption("Person 2", "person_2");
+    drivePresetsChooser.addOption("Tank Drive", "tank_drive");
+    driveSettings.add("Drive Presets", drivePresetsChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser);
   }
 
   /**

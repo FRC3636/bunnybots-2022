@@ -29,7 +29,7 @@ public class ArcadeDrive implements Command {
         double turn  = RobotContainer.joystickR.getX();
 
 
-        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity());
+        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity(), config.isTankDriveEnabled());
     }
 
     public void end(boolean interrupted) {

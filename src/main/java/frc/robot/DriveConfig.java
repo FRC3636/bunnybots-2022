@@ -8,8 +8,9 @@ public class DriveConfig {
     public static final String DEFAULT_PRESET_NAME = "default";
 
     static {
-        PRESETS.put(DEFAULT_PRESET_NAME, new DriveConfig(1, 1));
-        PRESETS.put("person_2", new DriveConfig(2, 2));
+        PRESETS.put(DEFAULT_PRESET_NAME, new DriveConfig(1, 1, false));
+        PRESETS.put("tank_drive", new DriveConfig(1, 1, true));
+        PRESETS.put("person_2", new DriveConfig(2, 2, false));
     }
 
     /**
@@ -26,9 +27,9 @@ public class DriveConfig {
     }
 
     private final double speedSensitivity;
-
     private final double turnSensitivity;
-    public DriveConfig(double speedSensitivity, double turnSensitivity) {
+    private final boolean useTankDrive;
+    public DriveConfig(double speedSensitivity, double turnSensitivity, boolean useTankDrive) {
         this.speedSensitivity = speedSensitivity;
         this.turnSensitivity = turnSensitivity;
     }
@@ -39,5 +40,9 @@ public class DriveConfig {
 
     public double getTurnSensitivity() {
         return turnSensitivity;
+    }
+
+    public double isTankDriveEnabled() {
+        return useTankDrive;
     }
 }

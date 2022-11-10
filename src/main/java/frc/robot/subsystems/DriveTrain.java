@@ -11,12 +11,16 @@ public class DriveTrain implements Subsystem {
     private final Spark leftMotor = new Spark(1);
     private final Spark rightMotor = new Spark(2);
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
-    
+
     public DriveTrain() {
-        leftMotor.setInverted(true);    
+        leftMotor.setInverted(true);
     }
 
-    public void drive(double xSpeed, double zRotation) {
-        robotDrive.arcadeDrive(xSpeed, zRotation);
+    public void drive(double leftOrSpeed, double rightOrRotation, boolean useTankDrive) {
+        if (useTankDrive) {
+            robotDrive.tankDrive(leftOrSpeed, rightOrRotation)
+        } else {
+            robotDrive.arcadeDrive(leftOrSpeed, rightOrRotation);
+        }
     }
 }
