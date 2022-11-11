@@ -16,11 +16,11 @@ public class DriveTrain implements Subsystem {
         leftMotor.setInverted(true);
     }
 
-    public void drive(double leftOrSpeed, double rightOrRotation, boolean useTankDrive) {
-        if (useTankDrive) {
-            robotDrive.tankDrive(leftOrSpeed, rightOrRotation);
-        } else {
-            robotDrive.arcadeDrive(leftOrSpeed, rightOrRotation);
-        }
+    public void arcadeDrive(double speed, double rotation) {
+        robotDrive.arcadeDrive(speed, rotation);
+    }
+
+    public void tankDrive(double left, double right) {
+        robotDrive.tankDrive(left, right);
     }
 }

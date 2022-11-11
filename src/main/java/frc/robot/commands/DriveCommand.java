@@ -25,17 +25,22 @@ public class DriveCommand implements Command {
     public void execute() {
         DriveConfig config = DriveConfig.getCurrent();
 
-        double speed = RobotContainer.joystickL.getY();
-        double turn = RobotContainer.joystickR.getX();
+        final double left = RobotContainer.joystickL.getY();
+        final double right = RobotContainer.joystickR.getX();
+        final double speedSensitivity = config.getSpeedSensitivity();
+        final double turnSensitivity = config.getTurnSensitivity();
 
-        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity(),
-                config.isTankDriveEnabled());
+        if (config.isTankDriveEnabled()) {
+            drivetrain.arcadeDrive(left / speedSensitivity, right / turnSensitivity);
+        } else {
+            drivetrain.tankDrive(left / speedSensitivity, right / speedSensitivity);
+        }
     }
 
     public void end(boolean interrupted) {
         // this method is called when the command ends
         // we can use it to stop the DriveTrain
-        drivetrain.drive(0, 0, false);
+        drivetrain.tankDrive(0, 0);
     }
 
     public boolean isFinished() {
