@@ -8,10 +8,10 @@ import frc.robot.subsystems.DriveTrain;
 
 import java.util.Set;
 
-public class ArcadeDrive implements Command {
+public class DriveCommand implements Command {
     private final DriveTrain drivetrain;
 
-    public ArcadeDrive(DriveTrain drivetrain) {
+    public DriveCommand(DriveTrain drivetrain) {
         this.drivetrain = drivetrain;
     }
 
@@ -26,16 +26,16 @@ public class ArcadeDrive implements Command {
         DriveConfig config = DriveConfig.getCurrent();
 
         double speed = RobotContainer.joystickL.getY();
-        double turn  = RobotContainer.joystickR.getX();
+        double turn = RobotContainer.joystickR.getX();
 
-
-        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity(), config.isTankDriveEnabled());
+        drivetrain.drive(speed / config.getSpeedSensitivity(), turn / config.getTurnSensitivity(),
+                config.isTankDriveEnabled());
     }
 
     public void end(boolean interrupted) {
         // this method is called when the command ends
         // we can use it to stop the DriveTrain
-        drivetrain.drive(0, 0);
+        drivetrain.drive(0, 0, false);
     }
 
     public boolean isFinished() {
