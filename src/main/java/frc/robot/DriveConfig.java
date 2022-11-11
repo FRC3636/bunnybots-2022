@@ -15,6 +15,7 @@ public class DriveConfig {
 
     /**
      * Provides the DriveConfig with the specified name
+     * 
      * @see DriveConfig.DEFAULT_PRESET_NAME
      */
     public static DriveConfig getPreset(String name) {
@@ -29,9 +30,11 @@ public class DriveConfig {
     private final double speedSensitivity;
     private final double turnSensitivity;
     private final boolean useTankDrive;
+
     public DriveConfig(double speedSensitivity, double turnSensitivity, boolean useTankDrive) {
         this.speedSensitivity = speedSensitivity;
         this.turnSensitivity = turnSensitivity;
+        this.useTankDrive = useTankDrive;
     }
 
     public double getSpeedSensitivity() {
@@ -42,7 +45,7 @@ public class DriveConfig {
         return turnSensitivity;
     }
 
-    public double isTankDriveEnabled() {
+    public boolean isTankDriveEnabled() {
         return useTankDrive;
     }
 }
