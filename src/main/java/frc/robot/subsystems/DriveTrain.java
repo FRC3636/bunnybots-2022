@@ -18,7 +18,7 @@ public class DriveTrain implements Subsystem {
 
     public void drive(double leftOrSpeed, double rightOrRotation, boolean useTankDrive) {
         if (useTankDrive) {
-            robotDrive.tankDrive(leftOrSpeed, rightOrRotation)
+            robotDrive.tankDrive(leftOrSpeed, rightOrRotation);
         } else {
             robotDrive.arcadeDrive(leftOrSpeed, rightOrRotation);
         }
