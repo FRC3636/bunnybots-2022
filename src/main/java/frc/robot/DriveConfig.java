@@ -15,7 +15,7 @@ public class DriveConfig {
 
     /**
      * Provides the DriveConfig with the specified name
-     * 
+     *
      * @see DriveConfig.DEFAULT_PRESET_NAME
      */
     public static DriveConfig getPreset(String name) {
@@ -23,8 +23,10 @@ public class DriveConfig {
     }
 
     public static DriveConfig getCurrent() {
-        // may be bad to get shuffleboard values constantly
-        return PRESETS.getOrDefault(RobotContainer.drivePresetsChooser.getSelected(), PRESETS.get(DEFAULT_PRESET_NAME));
+        DriveConfig current = PRESETS.getOrDefault(RobotContainer.drivePresetsChooser.getSelected(),
+                PRESETS.get(DEFAULT_PRESET_NAME));
+        RobotContainer.updateDriveSchemeWidget(current.isTankDriveEnabled());
+        return current;
     }
 
     private final double speedSensitivity;

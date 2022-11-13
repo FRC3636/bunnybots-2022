@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,8 +34,15 @@ public class RobotContainer {
     private final Intake intake = new Intake();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
-    public static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
-    public static SendableChooser<String> drivePresetsChooser;
+    public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
+    private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
+    private static Optional<NetworkTableEntry> driveSchemeEntry = Optional.empty();
+
+    static {
+        drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
+        drivePresetsChooser.addOption("Person 2", "person_2");
+        drivePresetsChooser.addOption("Tank Drive", "tank_drive");
+    }
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -40,12 +50,18 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-        drivePresetsChooser = new SendableChooser<String>();
-        drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
-        drivePresetsChooser.addOption("Person 2", "person_2");
-        drivePresetsChooser.addOption("Tank Drive", "tank_drive");
         driveSettings.add("Drive Presets", drivePresetsChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser);
+        driveSchemeEntry = Optional.of(driveSettings
+                .add("Drive Scheme", "None")
+                .withWidget(BuiltInWidgets.kTextView)
+                .getEntry());
+    }
+
+    public static void updateDriveSchemeWidget(boolean tankDriveEnabled) {
+        if (!driveSchemeEntry.isPresent())
+            return;
+        driveSchemeEntry.get().setString(tankDriveEnabled ? "Tank" : "Arcade");
     }
 
     /**
