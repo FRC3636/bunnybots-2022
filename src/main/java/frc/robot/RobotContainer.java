@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
@@ -58,10 +59,10 @@ public class RobotContainer {
                 .getEntry());
     }
 
-    public static void updateDriveSchemeWidget(boolean tankDriveEnabled) {
+    public static void updateDriveSchemeWidget(DriveScheme driveScheme) {
         if (!driveSchemeEntry.isPresent())
             return;
-        driveSchemeEntry.get().setString(tankDriveEnabled ? "Tank" : "Arcade");
+        driveSchemeEntry.get().setString(driveScheme.toString());
     }
 
     /**
