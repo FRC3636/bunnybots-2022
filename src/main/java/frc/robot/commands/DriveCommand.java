@@ -31,9 +31,9 @@ public class DriveCommand implements Command {
         final double turnSensitivity = config.getTurnSensitivity();
 
         if (config.isTankDriveEnabled()) {
-            drivetrain.tankDrive(left / speedSensitivity, right / turnSensitivity);
+            drivetrain.arcadeDrive(left / speedSensitivity, right / turnSensitivity);
         } else {
-            drivetrain.arcadeDrive(left / speedSensitivity, right / speedSensitivity);
+            drivetrain.tankDrive(left / speedSensitivity, right / speedSensitivity);
         }
     }
 
