@@ -1,0 +1,25 @@
+
+name: build
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+      - name: validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: setup jdk
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: make gradle wrapper executable\
+        run: chmod +x ./gradlew
+      - name: restore dependency cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle
+          key: gradle-dep-cache
+      - name: build
+        run: ./gradlew build
