@@ -35,7 +35,7 @@ public class DriveCommand implements Command {
                 drivetrain.arcadeDrive(left / speedSensitivity, right / turnSensitivity);
                 break;
             case Tank:
-                drivetrain.tankDrive(left / speedSensitivity, right / speedSensitivity);
+                drivetrain.tankDrive(left / speedSensitivity, RobotContainer.joystickR.getY() / speedSensitivity);
                 break;
         }
     }
