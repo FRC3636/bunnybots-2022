@@ -37,7 +37,15 @@ public final class Constants {
     }
 
     public static final class DriveTrain {
-        public static final int LEFT_MOTOR_PORT = 1;
-        public static final int RIGHT_MOTOR_PORT = 2;
+        public static final int LEFT_MOTOR_PORT = 0;
+        public static final int RIGHT_MOTOR_PORT = 1;
+
+        public static final int LEFT_ENCODER_PORT_A = 2;
+        public static final int LEFT_ENCODER_PORT_B = 3;
+
+        public static final int RIGHT_ENCODER_PORT_A = 4;
+        public static final int RIGHT_ENCODER_PORT_B = 5;
+
+        public static final double TRACK_WIDTH = 0.54; // in meters
     }
 }
