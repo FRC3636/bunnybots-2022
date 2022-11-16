@@ -5,17 +5,17 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: checkout repository
+            - name: Checkout repository
               uses: actions/checkout@v2
-            - name: validate gradle wrapper
+            - name: Validate Gradle wrapper
               uses: gradle/wrapper-validation-action@v1
-            - name: setup jdk
+            - name: Setup JDK
               uses: actions/setup-java@v1
               with:
                   java-version: 17
-            - name: make gradle wrapper executable\
+            - name: Make Gradle wrapper executable
               run: chmod +x ./gradlew
-            - name: restore gradle cache
+            - name: Restore Gradle cache
               uses: actions/cache@v3
               with:
                   path: |
@@ -24,7 +24,7 @@ jobs:
                   key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-
-            - name: build
+            - name: Build code
               run: ./gradlew build
-            - name: stop gradle
+            - name: Stop Gradle daemon
               run: ./gradlew --stop
