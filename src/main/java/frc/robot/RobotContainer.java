@@ -4,51 +4,86 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.DriveConfig.DriveScheme;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrain driveTrain = new DriveTrain();
-  private final Intake intake = new Intake();
-  public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
-  public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+    // The robot's subsystems and commands are defined here...
+    private final DriveTrain driveTrain = new DriveTrain();
+    private final Intake intake = new Intake();
+    public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
+    public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+    public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
+    private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
+    private static Optional<NetworkTableEntry> driveSchemeEntry = Optional.empty();
 
+    static {
+        drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
+        drivePresetsChooser.addOption("Person 2", "person_2");
+        drivePresetsChooser.addOption("Tank Drive", "tank_drive");
+    }
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
+        driveSettings.add("Drive Presets", drivePresetsChooser)
+                .withWidget(BuiltInWidgets.kComboBoxChooser);
+        driveSchemeEntry = Optional.of(driveSettings
+                .add("Drive Scheme", "None")
+                .withWidget(BuiltInWidgets.kTextView)
+                .getEntry());
+    }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain));
-  }
+    public static void updateDriveSchemeWidget(DriveScheme driveScheme) {
+        if (!driveSchemeEntry.isPresent())
+            return;
+        driveSchemeEntry.get().setString(driveScheme.toString());
+    }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-  }
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+    }
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return null;
+    }
 }

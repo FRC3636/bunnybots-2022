@@ -8,29 +8,35 @@ public class DriveConfig {
     public static final String DEFAULT_PRESET_NAME = "default";
 
     static {
-        PRESETS.put(DEFAULT_PRESET_NAME, new DriveConfig(1, 1));
+        PRESETS.put(DEFAULT_PRESET_NAME, new DriveConfig(1, 1, DriveScheme.Arcade));
+        PRESETS.put("tank_drive", new DriveConfig(1, 1, DriveScheme.Tank));
+        PRESETS.put("person_2", new DriveConfig(2, 2, DriveScheme.Arcade));
     }
 
     /**
      * Provides the DriveConfig with the specified name
+     *
      * @see DriveConfig.DEFAULT_PRESET_NAME
      */
     public static DriveConfig getPreset(String name) {
         return PRESETS.get(name);
     }
 
-    // TODO: Return something other then the default config
     public static DriveConfig getCurrent() {
-        // may be bad to get shuffleboard values constantly
-        return PRESETS.get(DEFAULT_PRESET_NAME);
+        DriveConfig current = PRESETS.getOrDefault(RobotContainer.drivePresetsChooser.getSelected(),
+                PRESETS.get(DEFAULT_PRESET_NAME));
+        RobotContainer.updateDriveSchemeWidget(current.getDriveScheme());
+        return current;
     }
 
     private final double speedSensitivity;
-
     private final double turnSensitivity;
-    public DriveConfig(double speedSensitivity, double turnSensitivity) {
+    private final DriveScheme driveScheme;
+
+    public DriveConfig(double speedSensitivity, double turnSensitivity, DriveScheme driveScheme) {
         this.speedSensitivity = speedSensitivity;
         this.turnSensitivity = turnSensitivity;
+        this.driveScheme = driveScheme;
     }
 
     public double getSpeedSensitivity() {
@@ -39,5 +45,14 @@ public class DriveConfig {
 
     public double getTurnSensitivity() {
         return turnSensitivity;
+    }
+
+    public DriveScheme getDriveScheme() {
+        return driveScheme;
+    }
+
+    public enum DriveScheme {
+        Arcade,
+        Tank,
     }
 }
