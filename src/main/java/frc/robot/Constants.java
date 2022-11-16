@@ -29,4 +29,9 @@ public final class Constants {
         public static final double ACTUATION_HOLD_SPEED = 0.10;
 
     }
+
+    public static final class DriveTrain {
+        public static final int LEFT_MOTOR_PORT = 1;
+        public static final int RIGHT_MOTOR_PORT = 2;
+    }
 }
