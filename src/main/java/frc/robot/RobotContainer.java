@@ -43,6 +43,7 @@ public class RobotContainer {
         drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
         drivePresetsChooser.addOption("Person 2", "person_2");
         drivePresetsChooser.addOption("Tank Drive", "tank_drive");
+        drivePresetsChooser.addOption("Arcade Single", "arcade_single");
     }
 
     /**
