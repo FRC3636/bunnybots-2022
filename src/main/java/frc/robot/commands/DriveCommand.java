@@ -36,6 +36,7 @@ public class DriveCommand implements Command {
                 break;
             case ArcadeSingle:
                 drivetrain.arcadeDrive(left / speedSensitivity, RobotContainer.joystickL.getX() / turnSensitivity);
+                break;
             case Tank:
                 drivetrain.tankDrive(left / speedSensitivity, RobotContainer.joystickR.getY() / speedSensitivity);
                 break;
