@@ -54,6 +54,12 @@ public class Intake extends SubsystemBase {
                 }
                 break;
             }
+            case Coast: {
+                break;
+            }
+            default: {
+                throw new Error("Error determining intake position. " + position);
+            }
         }
     }
 
