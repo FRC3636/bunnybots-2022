@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,7 +31,6 @@ import frc.robot.subsystems.Intake;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrain driveTrain = new DriveTrain();
-    private final Intake intake = new Intake();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
