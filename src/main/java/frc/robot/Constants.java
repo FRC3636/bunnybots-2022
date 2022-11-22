@@ -26,7 +26,7 @@ public final class Constants {
 
         // actuation configuration
         public static final double ACTUATION_MOTOR_GEAR_RATIO = 125;
-        public static final double ACTUATION_DEGREES = 70;
+        public static final double ACTUATION_DEGREES = 78;
 
 
         // actuation speeds
