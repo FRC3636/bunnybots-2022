@@ -47,5 +47,10 @@ public final class Constants {
         public static final int RIGHT_ENCODER_PORT_B = 5;
 
         public static final double TRACK_WIDTH = 0.54; // in meters
+
+        public static final int PULES_PER_ROTATION = 1024;
+
+        public static final double WHEEL_RADIUS = 4 * 0.0254; // in meters
+        public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     }
 }
