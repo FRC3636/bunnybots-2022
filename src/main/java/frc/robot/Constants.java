@@ -18,26 +18,26 @@ public final class Constants {
 
     public static final class Intake {
         // external identifiers
-        public static final int INTAKE_MOTOR_PORT = 7;
+        public static final int INTAKE_MOTOR_PORT = 2;
 
         public static final int ACTUATION_MOTOR_ID = 12;
-        public static final int ACTUATION_LIMIT_SWITCH_ID = 0;
+        public static final int ACTUATION_LIMIT_SWITCH_ID = 4;
 
 
         // actuation configuration
         public static final double ACTUATION_MOTOR_GEAR_RATIO = 125;
         public static final double ACTUATION_DEGREES = 78;
 
-
         // actuation speeds
         public static final double ACTUATION_MOVE_DOWN_SPEED = 0.25;
         public static final double ACTUATION_MOVE_UP_SPEED = 0.25;
         public static final double ACTUATION_HOLD_SPEED = 0.10;
 
+        public static final double INTAKE_SPEED = 0.5;
     }
 
     public static final class DriveTrain {
-        public static final int LEFT_MOTOR_PORT = 1;
-        public static final int RIGHT_MOTOR_PORT = 2;
+        public static final int LEFT_MOTOR_PORT = 0;
+        public static final int RIGHT_MOTOR_PORT = 1;
     }
 }

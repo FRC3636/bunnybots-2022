@@ -38,8 +38,8 @@ public class IntakeCommand extends CommandBase {
     }
 
     public enum Direction {
-        In(1),
-        Out(-1);
+        In(-1),
+        Out(1);
 
         public final double speed;
 

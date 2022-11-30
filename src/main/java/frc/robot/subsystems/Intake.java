@@ -92,7 +92,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void setWheelSpeed(double speed) {
-        intakeMotor.set(speed);
+        intakeMotor.set(speed * Constants.Intake.INTAKE_SPEED);
     }
 
     private enum Position {
