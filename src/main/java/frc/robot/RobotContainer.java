@@ -16,8 +16,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.IntakeCalibration;
+import frc.robot.commands.IntakeMotorOnlyCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
@@ -46,6 +49,7 @@ public class RobotContainer {
         drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
         drivePresetsChooser.addOption("Person 2", "person_2");
         drivePresetsChooser.addOption("Tank Drive", "tank_drive");
+        drivePresetsChooser.addOption("Arcade Single", "arcade_single");
     }
 
     /**
@@ -79,7 +83,11 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+//        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+        new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
+        new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
+        new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
+        new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
     }
 
     /**
