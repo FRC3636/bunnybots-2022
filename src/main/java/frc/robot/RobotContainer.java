@@ -19,10 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.IntakeCalibration;
-import frc.robot.commands.IntakeMotorOnlyCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,7 +33,6 @@ import frc.robot.subsystems.Intake;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrain driveTrain = new DriveTrain();
-    private final Intake intake = new Intake();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
@@ -84,10 +80,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 //        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
-        new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
-        new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
-        new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
-        new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
     }
 
     /**
