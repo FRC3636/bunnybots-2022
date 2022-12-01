@@ -33,7 +33,7 @@ public final class Constants {
         public static final double ACTUATION_MOVE_UP_SPEED = 0.25;
         public static final double ACTUATION_HOLD_SPEED = 0.10;
 
-        public static final double INTAKE_SPEED = 0.5;
+        public static final double INTAKE_SPEED = 0.75;
     }
 
     public static final class DriveTrain {
