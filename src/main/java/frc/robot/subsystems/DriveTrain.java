@@ -45,8 +45,6 @@ public class DriveTrain implements Subsystem {
     public void periodic() {
         double dl = leftEncoder.getDistance();
         double dr = rightEncoder.getDistance();
-        System.out.println(leftEncoder.getRaw());
-        System.out.println(rightEncoder.getRaw());
         double w = Constants.DriveTrain.TRACK_WIDTH;
         Rotation2d rotation = new Rotation2d((dr - dl) / w);
         odometry.update(rotation, dl, dr);
