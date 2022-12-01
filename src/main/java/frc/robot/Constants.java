@@ -17,6 +17,8 @@ public final class Constants {
     public static final int JOYSTICK_RIGHT_PORT = 1;
 
     public static final class Intake {
+        public static final double MAX_DELTA = 2;
+
         // external identifiers
         public static final int INTAKE_MOTOR_PORT = 2;
 
@@ -29,8 +31,8 @@ public final class Constants {
         public static final double ACTUATION_DEGREES = 78;
 
         // actuation speeds
-        public static final double ACTUATION_MOVE_DOWN_SPEED = 0.25;
-        public static final double ACTUATION_MOVE_UP_SPEED = 0.25;
+        public static final double ACTUATION_MOVE_DOWN_SPEED = 0.15;
+        public static final double ACTUATION_MOVE_UP_SPEED = 0.15;
         public static final double ACTUATION_HOLD_SPEED = 0.10;
 
         public static final double INTAKE_SPEED = 0.75;

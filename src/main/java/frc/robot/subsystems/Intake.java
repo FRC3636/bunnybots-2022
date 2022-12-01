@@ -54,6 +54,28 @@ public class Intake extends SubsystemBase {
                 }
                 break;
             }
+            case Match: {
+                double delta = targetAngle - this.getEncoderPositionDegrees();
+
+                if(delta > Constants.Intake.MAX_DELTA) {
+                    actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
+                    break;
+                }
+
+                if(bottomLimitSwitch.get()) {
+                    // failsafe
+                    actuationMotor.set(0);
+                    break;
+                }
+
+                if(delta < -Constants.Intake.MAX_DELTA) {
+                    actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
+                } else {
+                    actuationMotor.set(0);
+                }
+
+                break;
+            }
             case Coast: {
                 break;
             }
@@ -61,6 +83,14 @@ public class Intake extends SubsystemBase {
                 throw new Error("Error determining intake position. " + position);
             }
         }
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setIdleMode(CANSparkMax.IdleMode idleMode) {
+        actuationMotor.setIdleMode(idleMode);
     }
 
     public void goUp() {
@@ -73,7 +103,7 @@ public class Intake extends SubsystemBase {
         actuationMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
 
-    private double getEncoderPositionDegrees() {
+    public double getEncoderPositionDegrees() {
         return actuationMotor.getEncoder().getPosition()
                 / Constants.Intake.ACTUATION_MOTOR_GEAR_RATIO
                 * 360;
@@ -95,10 +125,11 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(speed * Constants.Intake.INTAKE_SPEED);
     }
 
-    private enum Position {
+    public enum Position {
         Up,
         Down,
         HoldUp,
-        Coast // does nothing
+        Match,
+        Coast, // does nothing
     }
 }
