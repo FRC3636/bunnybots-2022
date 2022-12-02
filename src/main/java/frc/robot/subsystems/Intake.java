@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Intake extends SubsystemBase {
     private final CANSparkMax actuationMotor = new CANSparkMax(
@@ -20,6 +22,8 @@ public class Intake extends SubsystemBase {
             Constants.Intake.ACTUATION_LIMIT_SWITCH_ID
     );
 
+    private final TalonSRX topIndexerMotor = new TalonSRX(Constants.Intake.TOP_INDEXER_MOTOR_ID);
+
     private Position position = Position.Coast;
 
     private double targetAngle = Constants.Intake.ACTUATION_DEGREES;
@@ -31,6 +35,8 @@ public class Intake extends SubsystemBase {
             case Up: {
                 if(this.getEncoderPositionDegrees() < targetAngle) {
                     actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
+                    topIndexerMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.ACTUATION_MOVE_UP_SPEED);
+
                 } else {
                     actuationMotor.set(0);
                     this.position = Position.HoldUp;

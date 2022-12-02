@@ -24,6 +24,7 @@ public final class Constants {
 
         public static final int ACTUATION_MOTOR_ID = 12;
         public static final int ACTUATION_LIMIT_SWITCH_ID = 4;
+        public static final int TOP_INDEXER_MOTOR_ID = 6;
 
 
         // actuation configuration
