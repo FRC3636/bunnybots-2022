@@ -39,6 +39,11 @@ public final class Constants {
         public static final double INTAKE_SPEED = 1;
     }
 
+    public static final class Elevator {
+        public static final int ELEVATOR_MOTOR_ID = 7;
+
+    }
+
     public static final class DriveTrain {
         public static final int LEFT_MOTOR_PORT = 0;
         public static final int RIGHT_MOTOR_PORT = 1;
