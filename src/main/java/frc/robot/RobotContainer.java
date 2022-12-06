@@ -9,7 +9,9 @@ import java.util.Optional;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -18,11 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
-import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCalibration;
 import frc.robot.commands.IntakeMotorOnlyCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,8 +40,10 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrain driveTrain = new DriveTrain();
     private final Intake intake = new Intake();
+    private final Elevator elevator = new Elevator();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+    public static final PS4Controller Controller = new PS4Controller(Constants.INDEX_BUTTON);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
@@ -88,6 +93,8 @@ public class RobotContainer {
         new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
         new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
         new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
+        new JoystickButton(Controller, 0).whenHeld(new IndexCommand(elevator));
+
     }
 
     /**
