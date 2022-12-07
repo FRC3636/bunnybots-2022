@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -93,8 +90,8 @@ public class RobotContainer {
         new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
         new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
         new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
-        new JoystickButton(Controller, 0).whenHeld(new IndexCommand(elevator, Constants.Elevator.ELEVATOR_UP_SPEED));
-        new JoystickButton(Controller, 3).whenHeld(new IndexCommand(elevator, Constants.Elevator.ELEVATOR_UP_SPEED));
+        new JoystickButton(Controller, 1).whenHeld(new IndexCommand(elevator, true));
+        new JoystickButton(Controller, 4).whenHeld(new IndexCommand(elevator, false));
 
 
     }

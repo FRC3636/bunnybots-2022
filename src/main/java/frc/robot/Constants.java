@@ -25,7 +25,7 @@ public final class Constants {
 
         public static final int ACTUATION_MOTOR_ID = 12;
         public static final int ACTUATION_LIMIT_SWITCH_ID = 4;
-        public static final int TOP_INDEXER_MOTOR_ID = 6;
+        public static final int TOP_INDEXER_MOTOR_ID = 3;
 
 
         // actuation configuration
@@ -41,20 +41,21 @@ public final class Constants {
     }
 
     public static final class Elevator {
-        public static final int ELEVATOR_MOTOR_ID = 7;
-        public static final double ELEVATOR_UP_SPEED = 0.4;
-        public static final double ELEVATOR_DOWN_SPEED = 0.4;
+        public static final int ELEVATOR_MOTOR_ID = 5;
+
+        public static final double ELEVATOR_UP_SPEED = 1; 
+        public static final double ELEVATOR_DOWN_SPEED = 1;
 
     }
 
     public static final class DriveTrain {
         public static final int LEFT_MOTOR_PORT = 0;
         public static final int RIGHT_MOTOR_PORT = 1;
-        public static final int LEFT_ENCODER_PORT_A = 2;
-        public static final int LEFT_ENCODER_PORT_B = 3;
+        public static final int LEFT_ENCODER_PORT_A = 0;
+        public static final int LEFT_ENCODER_PORT_B = 1;
 
-        public static final int RIGHT_ENCODER_PORT_A = 4;
-        public static final int RIGHT_ENCODER_PORT_B = 5;
+        public static final int RIGHT_ENCODER_PORT_A = 2;
+        public static final int RIGHT_ENCODER_PORT_B = 3;
 
         public static final double TRACK_WIDTH = 0.54; // in meters
 
