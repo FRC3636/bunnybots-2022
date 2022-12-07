@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -17,6 +18,7 @@ public class DriveTrain implements Subsystem {
     private final Spark leftMotor = new Spark(Constants.DriveTrain.LEFT_MOTOR_PORT);
     private final Spark rightMotor = new Spark(Constants.DriveTrain.RIGHT_MOTOR_PORT);
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
+    private final AHRS navX = new AHRS();
 
 
     private final Encoder leftEncoder = new Encoder(
@@ -45,22 +47,19 @@ public class DriveTrain implements Subsystem {
     public void periodic() {
         double dl = leftEncoder.getDistance();
         double dr = rightEncoder.getDistance();
-        double w = Constants.DriveTrain.TRACK_WIDTH;
-        Rotation2d rotation = new Rotation2d((dr - dl) / w);
-        odometry.update(rotation, dl, dr);
+        odometry.update(navX.getRotation2d(), dl, dr);
         RobotContainer.field.setRobotPose(odometry.getPoseMeters());
-        System.out.println(
-        "Heading: " + rotation + ", Pos: (" + odometry.getPoseMeters().getX() + ", " + odometry.getPoseMeters().getY() + ")");
     }
 
-    public void resetOdometryTo(Pose2d pose2d, Rotation2d rotation2d) {
+    public void resetOdometryTo(Pose2d pose2d) {
         resetEncoders();
-        odometry.resetPosition(pose2d, rotation2d);
+        odometry.resetPosition(pose2d, navX.getRotation2d());
     }
 
     private void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
+        navX.reset();
     }
 
     public void arcadeDrive(double speed, double rotation) {
