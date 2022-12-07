@@ -93,7 +93,9 @@ public class RobotContainer {
         new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
         new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
         new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
-        new JoystickButton(Controller, 0).whenHeld(new IndexCommand(elevator));
+        new JoystickButton(Controller, 0).whenHeld(new IndexCommand(elevator, Constants.Elevator.ELEVATOR_UP_SPEED));
+        new JoystickButton(Controller, 3).whenHeld(new IndexCommand(elevator, Constants.Elevator.ELEVATOR_UP_SPEED));
+
 
     }
 

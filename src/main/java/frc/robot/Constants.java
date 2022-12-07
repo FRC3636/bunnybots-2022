@@ -42,7 +42,8 @@ public final class Constants {
 
     public static final class Elevator {
         public static final int ELEVATOR_MOTOR_ID = 7;
-        public static final double ELEVATOR_SPEED = 0.4;
+        public static final double ELEVATOR_UP_SPEED = 0.4;
+        public static final double ELEVATOR_DOWN_SPEED = 0.4;
 
     }
 
