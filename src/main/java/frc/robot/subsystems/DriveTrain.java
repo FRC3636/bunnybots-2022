@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -14,36 +16,51 @@ public class DriveTrain implements Subsystem {
     // these fields represent the motor hardware
     // they are declared private because they should
     // never be accessed directly outside this subsystem
-    private final CANSparkMax rightMotor1 = new CANSparkMax(1, MotorType.kBrushed); // has encoder
-    private final CANSparkMax rightMotor2 = new CANSparkMax(2, MotorType.kBrushed);
-    private final CANSparkMax leftMotor1 = new CANSparkMax(4, MotorType.kBrushed); // has encoder
-    private final CANSparkMax leftMotor2 = new CANSparkMax(3, MotorType.kBrushed);
-    private final DifferentialDrive robotDrive = new DifferentialDrive(rightMotor1, leftMotor1);
+    private final CANSparkMax rightMotorMain = new CANSparkMax(
+            Constants.DriveTrain.RIGHT_MOTOR_PORT_MAIN,
+            MotorType.kBrushed
+    ); // has encoder
+    private final CANSparkMax rightMotorFollower = new CANSparkMax(
+            Constants.DriveTrain.RIGHT_MOTOR_PORT_FOLLOWER,
+            MotorType.kBrushed
+    );
+    private final RelativeEncoder rightEncoder;
+    private final CANSparkMax leftMotorMain = new CANSparkMax(
+            Constants.DriveTrain.LEFT_MOTOR_PORT_MAIN,
+            MotorType.kBrushed
+    ); // has encoder
+    private final CANSparkMax leftMotorFollower = new CANSparkMax(
+            Constants.DriveTrain.LEFT_MOTOR_PORT_FOLLOWER,
+            MotorType.kBrushed
+    );
+    private final RelativeEncoder leftEncoder;
+    private final DifferentialDrive robotDrive = new DifferentialDrive(rightMotorMain, leftMotorMain);
 
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
             new Rotation2d()
     );
 
     public DriveTrain() {
-        rightMotor2.follow(rightMotor1);
-        leftMotor2.follow(leftMotor1);
-        leftMotor1.setInverted(true);
+        rightMotorFollower.follow(rightMotorMain);
+        leftMotorFollower.follow(leftMotorMain);
+        leftMotorMain.setInverted(true);
 
-        // TODO: get acutal conversion factor
-        leftMotor1.getEncoder().setPositionConversionFactor(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
-        rightMotor1.getEncoder().setPositionConversionFactor(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
+        // TODO: get actual conversion factor
+        // hopefully encoder type + countsPerRev is right
+        leftEncoder = leftMotorMain.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+        leftEncoder.setPositionConversionFactor(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
+        rightEncoder = rightMotorMain.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+        rightEncoder.setPositionConversionFactor(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
     }
 
     @Override
     public void periodic() {
-        double dl = leftMotor1.getEncoder().getPosition();
-        double dr = rightMotor1.getEncoder().getPosition();
+        double dl = leftEncoder.getPosition();
+        double dr = rightEncoder.getPosition();
         double w = Constants.DriveTrain.TRACK_WIDTH;
         Rotation2d rotation = new Rotation2d((dr - dl) / w);
         odometry.update(rotation, dl, dr);
         RobotContainer.field.setRobotPose(odometry.getPoseMeters());
-        System.out.println(
-        "Heading: " + rotation + ", Pos: (" + odometry.getPoseMeters().getX() + ", " + odometry.getPoseMeters().getY() + ")");
     }
 
     public void resetOdometryTo(Pose2d pose2d, Rotation2d rotation2d) {
@@ -52,8 +69,8 @@ public class DriveTrain implements Subsystem {
     }
 
     private void resetEncoders() {
-        leftMotor1.getEncoder().setPosition(0);
-        rightMotor1.getEncoder().setPosition(0);
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
     }
 
     public void arcadeDrive(double speed, double rotation) {
