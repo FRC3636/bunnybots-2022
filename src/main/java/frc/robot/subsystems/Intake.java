@@ -4,10 +4,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Intake extends SubsystemBase {
     private final CANSparkMax actuationMotor = new CANSparkMax(
@@ -22,7 +21,7 @@ public class Intake extends SubsystemBase {
             Constants.Intake.ACTUATION_LIMIT_SWITCH_ID
     );
 
-    private final TalonSRX topIndexerMotor = new TalonSRX(Constants.Intake.TOP_INDEXER_MOTOR_ID);
+    private final VictorSP topIndexerMotor = new VictorSP(Constants.Intake.TOP_INDEXER_MOTOR_ID);
 
     private Position position = Position.Coast;
 
@@ -35,7 +34,7 @@ public class Intake extends SubsystemBase {
             case Up: {
                 if(this.getEncoderPositionDegrees() < targetAngle) {
                     actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
-                    topIndexerMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.ACTUATION_MOVE_UP_SPEED);
+                    topIndexerMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
 
                 } else {
                     actuationMotor.set(0);
@@ -57,6 +56,7 @@ public class Intake extends SubsystemBase {
                     actuationMotor.getEncoder().setPosition(0);
                 } else {
                     actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
+                    topIndexerMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
                 }
                 break;
             }
