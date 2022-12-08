@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.sound.sampled.SourceDataLine;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -91,6 +93,7 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    
     public void setPosition(Position position) {
         this.position = position;
     }

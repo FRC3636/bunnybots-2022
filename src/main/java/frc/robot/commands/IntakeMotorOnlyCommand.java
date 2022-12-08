@@ -30,6 +30,7 @@ public class IntakeMotorOnlyCommand extends CommandBase {
         intake.stopWheels();
     }
 
+
     @Override
     public Set<Subsystem> getRequirements() {
         return Set.of(intake);

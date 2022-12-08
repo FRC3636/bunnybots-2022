@@ -23,7 +23,7 @@ public final class Constants {
         // external identifiers
         public static final int INTAKE_MOTOR_PORT = 2;
 
-        public static final int ACTUATION_MOTOR_ID = 12;
+        public static final int ACTUATION_MOTOR_ID = 1;
         public static final int ACTUATION_LIMIT_SWITCH_ID = 4;
         public static final int TOP_INDEXER_MOTOR_ID = 3;
 
@@ -41,8 +41,8 @@ public final class Constants {
     }
 
     public static final class Elevator {
-        public static final int ELEVATOR_MOTOR_ID = 5;
 
+        public static final int ELEVATOR_MOTOR_ID = 4;
         public static final double ELEVATOR_UP_SPEED = 1; 
         public static final double ELEVATOR_DOWN_SPEED = 1;
 
