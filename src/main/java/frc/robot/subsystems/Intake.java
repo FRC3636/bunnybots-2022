@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.sound.sampled.SourceDataLine;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,7 +21,7 @@ public class Intake extends SubsystemBase {
             Constants.Intake.ACTUATION_LIMIT_SWITCH_ID
     );
 
-    private final VictorSP topIndexerMotor = new VictorSP(Constants.Intake.TOP_INDEXER_MOTOR_ID);
+    private final VictorSP indexerMotor = new VictorSP(Constants.Intake.INDEXER_MOTOR_ID);
 
     private Position position = Position.Coast;
 
@@ -36,8 +34,6 @@ public class Intake extends SubsystemBase {
             case Up: {
                 if(this.getEncoderPositionDegrees() < targetAngle) {
                     actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
-                    topIndexerMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
-
                 } else {
                     actuationMotor.set(0);
                     this.position = Position.HoldUp;
@@ -58,7 +54,6 @@ public class Intake extends SubsystemBase {
                     actuationMotor.getEncoder().setPosition(0);
                 } else {
                     actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
-                    topIndexerMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
                 }
                 break;
             }
@@ -128,10 +123,12 @@ public class Intake extends SubsystemBase {
 
     public void stopWheels() {
         intakeMotor.stopMotor();
+        indexerMotor.stopMotor();
     }
 
     public void setWheelSpeed(double speed) {
         intakeMotor.set(speed * Constants.Intake.INTAKE_SPEED);
+        indexerMotor.set(speed * Constants.Intake.INTAKE_SPEED);
     }
 
     public enum Position {
