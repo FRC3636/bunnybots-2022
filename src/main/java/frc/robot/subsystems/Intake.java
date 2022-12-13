@@ -13,8 +13,8 @@ public class Intake extends SubsystemBase {
             Constants.Intake.ACTUATION_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless
     );
 
-    private final Spark intakeMotor = new Spark(
-            Constants.Intake.INTAKE_MOTOR_PORT
+    private final CANSparkMax intakeMotor = new CANSparkMax(
+            Constants.Intake.INTAKE_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless
     );
 
     private final DigitalInput bottomLimitSwitch = new DigitalInput(
@@ -128,7 +128,7 @@ public class Intake extends SubsystemBase {
 
     public void setWheelSpeed(double speed) {
         intakeMotor.set(speed * Constants.Intake.INTAKE_SPEED);
-        indexerMotor.set(speed * Constants.Intake.INTAKE_SPEED);
+        indexerMotor.set(-speed * 0.25);
     }
 
     public enum Position {
