@@ -24,12 +24,12 @@ public class DriveTrain implements Subsystem {
     private final Encoder leftEncoder = new Encoder(
             Constants.DriveTrain.LEFT_ENCODER_PORT_A,
             Constants.DriveTrain.LEFT_ENCODER_PORT_B,
-            true
+            false
     );
     private final Encoder rightEncoder = new Encoder(
             Constants.DriveTrain.RIGHT_ENCODER_PORT_A,
             Constants.DriveTrain.RIGHT_ENCODER_PORT_B,
-            false
+            true
     );
 
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
@@ -37,10 +37,14 @@ public class DriveTrain implements Subsystem {
     );
 
     public DriveTrain() {
-        leftMotor.setInverted(true);
+        rightMotor.setInverted(true);
 
-        leftEncoder.setDistancePerPulse(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
-        rightEncoder.setDistancePerPulse(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
+        double distancePerPulse =
+                Constants.DriveTrain.WHEEL_CIRCUMFERENCE
+                        / Constants.DriveTrain.PULSES_PER_REVOLUTION
+                        / 4; // magic number that by all means shouldn't be here but is
+        leftEncoder.setDistancePerPulse(distancePerPulse);
+        rightEncoder.setDistancePerPulse(distancePerPulse);
     }
 
     @Override

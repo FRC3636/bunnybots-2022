@@ -72,10 +72,11 @@ public class RobotContainer {
                 .getEntry());
 
         autoTab.add("Field", field).withWidget(BuiltInWidgets.kField);
+        driveTrain.resetOdometryTo(new Pose2d());
     }
 
     public static void updateDriveSchemeWidget(DriveScheme driveScheme) {
-        if (!driveSchemeEntry.isPresent())
+        if (driveSchemeEntry.isEmpty())
             return;
         driveSchemeEntry.get().setString(driveScheme.toString());
     }
