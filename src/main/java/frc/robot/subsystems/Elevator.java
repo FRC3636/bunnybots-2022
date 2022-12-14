@@ -16,7 +16,7 @@ public class Elevator extends SubsystemBase{
         switch(direction){
             case Up: elevatorMotor.set(Constants.Elevator.ELEVATOR_UP_SPEED);
                 break;
-            case Down: elevatorMotor.set(-1 * Constants.Elevator.ELEVATOR_UP_SPEED);
+            case Down: elevatorMotor.set(-1 * Constants.Elevator.ELEVATOR_DOWN_SPEED);
                 break;
         }
     }
@@ -31,5 +31,5 @@ public class Elevator extends SubsystemBase{
         Up,
         Down,
     }
-    
+
 }
