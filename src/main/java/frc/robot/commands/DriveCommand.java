@@ -25,20 +25,20 @@ public class DriveCommand implements Command {
     public void execute() {
         DriveConfig config = DriveConfig.getCurrent();
 
-        final double left = RobotContainer.joystickL.getY();
-        final double right = RobotContainer.joystickR.getX();
+        final double forward = -RobotContainer.joystickL.getY();
+        final double turn = RobotContainer.joystickR.getX();
         final double speedSensitivity = config.getSpeedSensitivity();
         final double turnSensitivity = config.getTurnSensitivity();
 
         switch (config.getDriveScheme()) {
             case Arcade:
-                drivetrain.arcadeDrive(left / speedSensitivity, right / turnSensitivity);
+                drivetrain.arcadeDrive(forward / speedSensitivity, turn / turnSensitivity);
                 break;
             case ArcadeSingle:
-                drivetrain.arcadeDrive(left / speedSensitivity, RobotContainer.joystickL.getX() / turnSensitivity);
+                drivetrain.arcadeDrive(forward / speedSensitivity, RobotContainer.joystickL.getX() / turnSensitivity);
                 break;
             case Tank:
-                drivetrain.tankDrive(left / speedSensitivity, RobotContainer.joystickR.getY() / speedSensitivity);
+                drivetrain.tankDrive(forward / speedSensitivity, -RobotContainer.joystickR.getY() / speedSensitivity);
                 break;
         }
     }

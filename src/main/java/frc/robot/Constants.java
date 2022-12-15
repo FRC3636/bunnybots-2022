@@ -43,7 +43,7 @@ public final class Constants {
     public static final class Elevator {
 
         public static final int ELEVATOR_MOTOR_ID = 4;
-        public static final double ELEVATOR_UP_SPEED = 1; 
+        public static final double ELEVATOR_UP_SPEED = 1;
         public static final double ELEVATOR_DOWN_SPEED = 1;
 
     }
@@ -59,9 +59,16 @@ public final class Constants {
 
         public static final double TRACK_WIDTH = 0.54; // in meters
 
-        public static final int PULES_PER_ROTATION = 1024;
+        public static final int PULSES_PER_REVOLUTION = 4096;
 
-        public static final double WHEEL_RADIUS = 4 * 0.0254; // in meters
-        public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
+        public static final double WHEEL_DIAMETER = 6 * 0.0254; // in meters
+        public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+
+        // amy
+        public static final double FEED_FORWARD_KS = -70.693;
+        public static final double FEED_FORWARD_KV = 33.277;
+        public static final double FEED_FORWARD_KA = 310.93;
+
+        public static final double DRIVE_VELOCITY_KP = 1.8538;
     }
 }

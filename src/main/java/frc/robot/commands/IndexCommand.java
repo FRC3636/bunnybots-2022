@@ -1,33 +1,26 @@
 package frc.robot.commands;
-import frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Elevator.Direction;
 
 
-public class IndexCommand extends CommandBase{
-    final Elevator elevator;
-    final boolean moveUp;
-    final Direction direction;
-    
+public class IndexCommand extends CommandBase {
+    private final Elevator elevator;
+    private final Direction direction;
 
-
-    public IndexCommand(frc.robot.subsystems.Elevator elevator, boolean moveUp){
+    public IndexCommand(Elevator elevator, Direction direction) {
         this.elevator = elevator;
-        this.moveUp = moveUp;
-        direction = (moveUp) ? Direction.Up : Direction.Down;
+        this.direction = direction;
     }
 
-    @Override 
+    @Override
     public void initialize() {
         elevator.setRunning(direction);
-        
     }
 
     @Override
     public void end(boolean interrupted) {
         elevator.stop();
     }
-
-    
 }

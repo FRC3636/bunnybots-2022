@@ -4,26 +4,30 @@
 
 package frc.robot;
 
-import java.util.Optional;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.*;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCalibration;
 import frc.robot.commands.IntakeMotorOnlyCommand;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.commands.*;
+
+import java.util.Optional;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,7 +46,7 @@ public class RobotContainer {
     private final Elevator elevator = new Elevator();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
-    public static final PS4Controller Controller = new PS4Controller(Constants.INDEX_BUTTON);
+    public static final PS4Controller controller = new PS4Controller(Constants.INDEX_BUTTON);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
@@ -70,10 +74,11 @@ public class RobotContainer {
                 .getEntry());
 
         autoTab.add("Field", field).withWidget(BuiltInWidgets.kField);
+        driveTrain.resetOdometryTo(new Pose2d());
     }
 
     public static void updateDriveSchemeWidget(DriveScheme driveScheme) {
-        if (!driveSchemeEntry.isPresent())
+        if (driveSchemeEntry.isEmpty())
             return;
         driveSchemeEntry.get().setString(driveScheme.toString());
     }
@@ -87,15 +92,19 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-//        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
         new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
         new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
-        new JoystickButton(joystickL, 4).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
-        new JoystickButton(joystickL, 5).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
-        new JoystickButton(Controller, 1).whenHeld(new IndexCommand(elevator, true));
-        new JoystickButton(Controller, 4).whenHeld(new IndexCommand(elevator, false));
+        new JoystickButton(controller, PS4Controller.Button.kR1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
+        new JoystickButton(controller, PS4Controller.Button.kL1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
 
-
+        // whileActiveContinuous is the same as whileHeld
+        new JoystickButton(controller, PS4Controller.Button.kL2.value)
+                .or(new JoystickButton(joystickL, 1))
+                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Up));
+        new JoystickButton(controller, PS4Controller.Button.kR2.value)
+                .or(new JoystickButton(joystickR, 1))
+                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Down));
     }
 
     /**
