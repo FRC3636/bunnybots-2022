@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -66,11 +67,32 @@ public class DriveTrain implements Subsystem {
         navX.reset();
     }
 
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(
+                leftEncoder.getRate(),
+                rightEncoder.getRate()
+        );
+    }
+
+    public void stop() {
+        leftMotor.set(0);
+        rightMotor.set(0);
+    }
+
     public void arcadeDrive(double speed, double rotation) {
         robotDrive.arcadeDrive(speed, rotation);
     }
 
     public void tankDrive(double left, double right) {
         robotDrive.tankDrive(left, right);
+    }
+
+    public void tankDriveWithRawVoltage(double leftV, double rightV) {
+        leftMotor.setVoltage(leftV);
+        rightMotor.setVoltage(rightV);
     }
 }
