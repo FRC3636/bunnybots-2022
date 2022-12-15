@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,9 +29,9 @@ public class Intake extends SubsystemBase {
     // fixme: no protection against going backwards
     @Override
     public void periodic() {
-        switch(position) {
+        switch (position) {
             case Up: {
-                if(this.getEncoderPositionDegrees() < targetAngle) {
+                if (this.getEncoderPositionDegrees() < targetAngle) {
                     actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
                 } else {
                     actuationMotor.set(0);
@@ -41,7 +40,7 @@ public class Intake extends SubsystemBase {
                 break;
             }
             case HoldUp: {
-                if(this.getEncoderPositionDegrees() < targetAngle) {
+                if (this.getEncoderPositionDegrees() < targetAngle) {
                     actuationMotor.set(Constants.Intake.ACTUATION_HOLD_SPEED);
                 } else {
                     actuationMotor.set(0);
@@ -49,7 +48,7 @@ public class Intake extends SubsystemBase {
                 break;
             }
             case Down: {
-                if(bottomLimitSwitch.get()) {
+                if (bottomLimitSwitch.get()) {
                     actuationMotor.set(0);
                     actuationMotor.getEncoder().setPosition(0);
                 } else {
@@ -60,18 +59,18 @@ public class Intake extends SubsystemBase {
             case Match: {
                 double delta = targetAngle - this.getEncoderPositionDegrees();
 
-                if(delta > Constants.Intake.MAX_DELTA) {
+                if (delta > Constants.Intake.MAX_DELTA) {
                     actuationMotor.set(Constants.Intake.ACTUATION_MOVE_UP_SPEED);
                     break;
                 }
 
-                if(bottomLimitSwitch.get()) {
+                if (bottomLimitSwitch.get()) {
                     // failsafe
                     actuationMotor.set(0);
                     break;
                 }
 
-                if(delta < -Constants.Intake.MAX_DELTA) {
+                if (delta < -Constants.Intake.MAX_DELTA) {
                     actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
                 } else {
                     actuationMotor.set(0);
@@ -88,7 +87,6 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    
     public void setPosition(Position position) {
         this.position = position;
     }
