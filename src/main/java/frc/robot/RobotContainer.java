@@ -26,8 +26,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 
-import java.util.Optional;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -45,10 +43,10 @@ public class RobotContainer {
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
     public static final PS4Controller controller = new PS4Controller(Constants.INDEX_BUTTON);
-    public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
+    public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
-    private static Optional<NetworkTableEntry> driveSchemeEntry = Optional.empty();
+    private static NetworkTableEntry driveSchemeEntry;
     public static Field2d field = new Field2d();
 
     static {
@@ -66,19 +64,19 @@ public class RobotContainer {
         configureButtonBindings();
         driveSettings.add("Drive Presets", drivePresetsChooser)
                 .withWidget(BuiltInWidgets.kComboBoxChooser);
-        driveSchemeEntry = Optional.of(driveSettings
+        driveSchemeEntry = driveSettings
                 .add("Drive Scheme", "None")
                 .withWidget(BuiltInWidgets.kTextView)
-                .getEntry());
+                .getEntry();
 
         autoTab.add("Field", field).withWidget(BuiltInWidgets.kField);
         driveTrain.resetOdometryTo(new Pose2d());
     }
 
     public static void updateDriveSchemeWidget(DriveScheme driveScheme) {
-        if (driveSchemeEntry.isEmpty())
+        if (driveSchemeEntry == null)
             return;
-        driveSchemeEntry.get().setString(driveScheme.toString());
+        driveSchemeEntry.setString(driveScheme.toString());
     }
 
     /**
