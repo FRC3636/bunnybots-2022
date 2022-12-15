@@ -18,6 +18,7 @@ public class Elevator implements Subsystem {
     public void moveElevator(double percentOutput) {
 
         if ((topLimitSwitch.get() && percentOutput > 1) || (bottomLimitSwitch.get() && percentOutput < 1)) {
+            elevatorMotor.set(ControlMode.PercentOutput, 0);
             return;
         }
 
