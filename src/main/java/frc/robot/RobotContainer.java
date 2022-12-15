@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.IntakeCalibration;
 import frc.robot.commands.IntakeMotorOnlyCommand;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -35,7 +36,8 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final DriveTrain driveTrain = new DriveTrain();
+    private final Camera camera = new Camera("photonvision");
+    private final DriveTrain driveTrain = new DriveTrain(camera);
     private final Intake intake = new Intake();
     private final Elevator elevator = new Elevator();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);

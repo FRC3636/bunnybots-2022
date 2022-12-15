@@ -1,8 +1,13 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -19,6 +24,10 @@ public class DriveTrain implements Subsystem {
     private final Spark rightMotor = new Spark(Constants.DriveTrain.RIGHT_MOTOR_PORT);
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
     private final AHRS navX = new AHRS();
+    private boolean doAssistOdometryUsingCamera = false;
+    private Camera camera;
+
+    private static final Pose2d aprilTagAbsolutePosition = new Pose2d(); // TODO: add real location??
 
 
     private final Encoder leftEncoder = new Encoder(
@@ -36,15 +45,27 @@ public class DriveTrain implements Subsystem {
             new Rotation2d()
     );
 
-    public DriveTrain() {
+    public DriveTrain(Camera camera) {
+        this.camera = camera;
+
         leftMotor.setInverted(true);
 
         leftEncoder.setDistancePerPulse(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
         rightEncoder.setDistancePerPulse(Constants.DriveTrain.WHEEL_CIRCUMFERENCE / Constants.DriveTrain.PULES_PER_ROTATION);
     }
 
+    private void updateOdometryUsingCamera() {
+        Optional<Transform2d> targetRelative = camera.getTargetRelative2D();
+        if (targetRelative.isEmpty()) return;
+        
+        Pose2d newOdometry = Camera.calculateRobotPositionOnField(aprilTagAbsolutePosition, targetRelative.get());
+        resetOdometryTo(newOdometry);
+        // System.out.println(String.format("Spotted april tag - inferred pose is: %s", newOdometry));
+    }
+
     @Override
     public void periodic() {
+        if (doAssistOdometryUsingCamera) updateOdometryUsingCamera();
         double dl = leftEncoder.getDistance();
         double dr = rightEncoder.getDistance();
         odometry.update(navX.getRotation2d(), dl, dr);
@@ -69,4 +90,5 @@ public class DriveTrain implements Subsystem {
     public void tankDrive(double left, double right) {
         robotDrive.tankDrive(left, right);
     }
+
 }
