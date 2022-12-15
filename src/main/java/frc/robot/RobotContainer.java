@@ -9,6 +9,7 @@ import java.util.Optional;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -20,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
+import frc.robot.commands.ElevatorCommand;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,6 +37,7 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrain driveTrain = new DriveTrain();
+    private final Elevator elevator = new Elevator();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
@@ -40,6 +45,7 @@ public class RobotContainer {
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     private static Optional<NetworkTableEntry> driveSchemeEntry = Optional.empty();
     public static Field2d field = new Field2d();
+    public static PS4Controller controller = new PS4Controller(Constants.PS4CONTROLLER_PORT);
 
     static {
         drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
@@ -79,7 +85,10 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-//        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+        driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
+        elevator.setDefaultCommand(new ElevatorCommand(elevator));
+        
+        
     }
 
     /**

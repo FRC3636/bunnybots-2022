@@ -15,6 +15,7 @@ package frc.robot;
 public final class Constants {
     public static final int JOYSTICK_LEFT_PORT = 0;
     public static final int JOYSTICK_RIGHT_PORT = 1;
+    public static final int PS4CONTROLLER_PORT = 2;
 
     public static final class Intake {
         // external identifiers
@@ -34,5 +35,14 @@ public final class Constants {
 
         public static final double WHEEL_RADIUS = 4 * 0.0254; // in meters
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
+    }
+
+    public static final class Elevator {
+        public static final int ELEVATOR_MOTOR_PORT = 5;
+        public static final double ELEVATOR_MOTOR_SPEED = 0.5;
+        public static final int BOTTOM_LIMIT_SWITCH_CHANNEL = 6;
+        public static final int TOP_LIMIT_SWITCH_CHANNEL = 7;
+
+
     }
 }
