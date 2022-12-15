@@ -18,10 +18,16 @@ public final class Constants {
     public static final int PS4CONTROLLER_PORT = 2;
 
     public static final class Intake {
+        public static final double INTAKE_SPEED = 0.3;
+        public static final double INTAKE_STOP_POSITION = 0; // intake-signed rotations between the reset position and the stop position
+
+        public static final double INTAKE_CONTROLLER_P = 0;
+        public static final double INTAKE_CONTROLLER_I = 0;
+        public static final double INTAKE_CONTROLLER_D = 0;
+
         // external identifiers
         public static final int INTAKE_MOTOR_PORT = 2;
-        public static final int INTAKE_READ_SWITCH_PORT = 0; // TODO Ask electrical
-        public static final double INTAKE_SPEED = 0.3;
+        public static final int INTAKE_RESET_SWITCH_PORT = 0; // TODO Ask electrical
     }
 
     public static final class DriveTrain {

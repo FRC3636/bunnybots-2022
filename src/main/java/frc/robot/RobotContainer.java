@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.Intake;
 
 
@@ -92,13 +92,12 @@ public class RobotContainer {
     private void configureButtonBindings() {
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
         elevator.setDefaultCommand(new ElevatorCommand(elevator));
+        intake.setDefaultCommand(new IntakeCommand(intake, Intake.State.Stop));
 
         new JoystickButton(controller, PS4Controller.Button.kR1.value)
-                .whenPressed(() -> intake.setState(Intake.State.Intake))
-                .whenReleased(() -> intake.setState(Intake.State.Stop));
+                .whileHeld(new IntakeCommand(intake, Intake.State.Intake));
         new JoystickButton(controller, PS4Controller.Button.kL1.value)
-                .whenPressed(() -> intake.setState(Intake.State.Outtake))
-                .whenReleased(() -> intake.setState(Intake.State.Stop));
+                .whileHeld(new IntakeCommand(intake, Intake.State.Outtake));
     }
 
     /**
