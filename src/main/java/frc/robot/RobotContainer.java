@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.subsystems.Intake;
 
 
 /**
@@ -38,8 +40,11 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveTrain driveTrain = new DriveTrain();
     private final Elevator elevator = new Elevator();
+    private final Intake intake = new Intake();
+
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
@@ -87,8 +92,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
         elevator.setDefaultCommand(new ElevatorCommand(elevator));
-        
-        
+
+        new JoystickButton(controller, PS4Controller.Button.kR1.value)
+                .whenPressed(() -> intake.setState(Intake.State.Intake))
+                .whenReleased(() -> intake.setState(Intake.State.Stop));
+        new JoystickButton(controller, PS4Controller.Button.kL1.value)
+                .whenPressed(() -> intake.setState(Intake.State.Outtake))
+                .whenReleased(() -> intake.setState(Intake.State.Stop));
     }
 
     /**

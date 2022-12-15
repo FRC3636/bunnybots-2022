@@ -20,8 +20,8 @@ public final class Constants {
     public static final class Intake {
         // external identifiers
         public static final int INTAKE_MOTOR_PORT = 2;
-        public static final int INTAKE_REED_SWITCH_PORT = 0; // what is this acutally
-        public static final double INTAKE_SPEED = 0.75;
+        public static final int INTAKE_READ_SWITCH_PORT = 0; // TODO Ask electrical
+        public static final double INTAKE_SPEED = 0.3;
     }
 
     public static final class DriveTrain {
