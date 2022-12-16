@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import org.ejml.equation.IntegerSequence.Range;
+import org.w3c.dom.ranges.RangeException;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
@@ -48,6 +51,10 @@ public class Elevator implements Subsystem {
     }
 
     public void setDoorSpeed(double speed) {
+        if (speed < -1 || speed > 1) {
+            throw new RangeException((short)0, "Speed must be between -1 and 1");
+        }
+
         if (isDoorStalled()) {
             doorMotor.set(0);
             return;

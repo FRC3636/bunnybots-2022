@@ -46,9 +46,9 @@ public final class Constants {
 
     public static final class Elevator {
         public static final int ELEVATOR_MOTOR_PORT = 5;
-        public static final int ELEVATOR_DOOR_MOTOR_PORT = 0; // ask THEM
-        public static final int DOOR_MOTOR_PDP_CHANNEL = 0; // ask THEM
-        public static final double MAX_DOOR_DRAW = 0; // ask THEM
+        public static final int ELEVATOR_DOOR_MOTOR_PORT = 0; // ask ***THEM***
+        public static final int DOOR_MOTOR_PDP_CHANNEL = 0; // ask ***THEM***
+        public static final double MAX_DOOR_DRAW = 0; // ask ***THEM***
         public static final double ELEVATOR_MOTOR_SPEED = 0.5;
         public static final int BOTTOM_LIMIT_SWITCH_CHANNEL = 6;
         public static final int TOP_LIMIT_SWITCH_CHANNEL = 7;
