@@ -28,7 +28,7 @@ public class DriveTrain implements Subsystem {
     private final CANSparkMax leftMotorMain = new CANSparkMax(
             Constants.DriveTrain.LEFT_MOTOR_PORT_MAIN,
             MotorType.kBrushed
-    ); // has encoder
+    ); // has beans encoder
     private final CANSparkMax leftMotorFollower = new CANSparkMax(
             Constants.DriveTrain.LEFT_MOTOR_PORT_FOLLOWER,
             MotorType.kBrushed
