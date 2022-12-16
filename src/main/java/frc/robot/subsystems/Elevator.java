@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.io.Console;
+
 import org.ejml.equation.IntegerSequence.Range;
 import org.w3c.dom.ranges.RangeException;
 
@@ -51,9 +53,9 @@ public class Elevator implements Subsystem {
     }
 
     public void setDoorSpeed(double speed) {
-        if (speed < -1 || speed > 1) {
-            throw new RangeException((short)0, "Speed must be between -1 and 1");
-        }
+        // Speed should never be above 1 or below -1
+        Math.min(speed, 1);
+        Math.max(speed, -1);
 
         if (isDoorStalled()) {
             doorMotor.set(0);
