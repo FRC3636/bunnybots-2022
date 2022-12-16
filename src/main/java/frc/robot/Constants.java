@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.math.geometry.Pose2d;
 
 /**
@@ -79,5 +83,7 @@ public final class Constants {
 
     public static final class Auto {
         public static final Pose2d APRIL_TAG_POSITION = new Pose2d(); // TODO: real location??
+        public static final PathPlannerTrajectory AUTO_TRAJECTORY = PathPlanner.loadPath("Auto Tube Dropoff 1",
+                new PathConstraints(4, 3)); // TODO: tune this??
     }
 }

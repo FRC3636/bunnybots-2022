@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -22,6 +24,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCalibration;
 import frc.robot.commands.IntakeMotorOnlyCommand;
+import frc.robot.commands.auto.FollowTrajectoryCommand;
+import frc.robot.commands.auto.FollowTrajectoryCommand.PositionedCommand;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -93,8 +97,10 @@ public class RobotContainer {
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
         new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
         new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
-        new JoystickButton(controller, PS4Controller.Button.kR1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
-        new JoystickButton(controller, PS4Controller.Button.kL1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
+        new JoystickButton(controller, PS4Controller.Button.kR1.value)
+                .whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
+        new JoystickButton(controller, PS4Controller.Button.kL1.value)
+                .whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
 
         // whileActiveContinuous is the same as whileHeld
         new JoystickButton(controller, PS4Controller.Button.kL2.value)
@@ -111,7 +117,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;
+        var positionedCommands = new ArrayList<PositionedCommand<Command>>();
+
+        return new FollowTrajectoryCommand(driveTrain, Constants.Auto.AUTO_TRAJECTORY, positionedCommands);
     }
 }
