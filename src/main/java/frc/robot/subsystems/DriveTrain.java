@@ -28,49 +28,47 @@ public class DriveTrain implements Subsystem {
     private boolean doAssistOdometryUsingCamera = false;
     private Camera camera;
 
-    private static final Pose2d aprilTagAbsolutePosition = new Pose2d(); // TODO: add real location??
-
+    private static final Pose2d aprilTagAbsolutePosition = Constants.Auto.APRIL_TAG_POSITION;
 
     private final Encoder leftEncoder = new Encoder(
             Constants.DriveTrain.LEFT_ENCODER_PORT_A,
             Constants.DriveTrain.LEFT_ENCODER_PORT_B,
-            false
-    );
+            false);
     private final Encoder rightEncoder = new Encoder(
             Constants.DriveTrain.RIGHT_ENCODER_PORT_A,
             Constants.DriveTrain.RIGHT_ENCODER_PORT_B,
-            true
-    );
+            true);
 
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
-            new Rotation2d()
-    );
+            new Rotation2d());
 
     public DriveTrain(Camera camera) {
         this.camera = camera;
-        
+
         rightMotor.setInverted(true);
 
-        double distancePerPulse =
-                Constants.DriveTrain.WHEEL_CIRCUMFERENCE
-                        / Constants.DriveTrain.PULSES_PER_REVOLUTION
-                        / 4; // magic number that by all means shouldn't be here but is
+        double distancePerPulse = Constants.DriveTrain.WHEEL_CIRCUMFERENCE
+                / Constants.DriveTrain.PULSES_PER_REVOLUTION
+                / 4; // magic number that by all means shouldn't be here but is
         leftEncoder.setDistancePerPulse(distancePerPulse);
         rightEncoder.setDistancePerPulse(distancePerPulse);
     }
 
     private void updateOdometryUsingCamera() {
         Optional<Transform2d> targetRelative = camera.getTargetRelative2D();
-        if (targetRelative.isEmpty()) return;
-        
+        if (targetRelative.isEmpty())
+            return;
+
         Pose2d newOdometry = Camera.calculateRobotPositionOnField(aprilTagAbsolutePosition, targetRelative.get());
         resetOdometryTo(newOdometry);
-        // System.out.println(String.format("Spotted april tag - inferred pose is: %s", newOdometry));
+        // System.out.println(String.format("Spotted april tag - inferred pose is: %s",
+        // newOdometry));
     }
 
     @Override
     public void periodic() {
-        if (doAssistOdometryUsingCamera) updateOdometryUsingCamera();
+        if (doAssistOdometryUsingCamera)
+            updateOdometryUsingCamera();
         double dl = leftEncoder.getDistance();
         double dr = rightEncoder.getDistance();
         odometry.update(navX.getRotation2d(), dl, dr);
@@ -95,8 +93,7 @@ public class DriveTrain implements Subsystem {
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
                 leftEncoder.getRate(),
-                rightEncoder.getRate()
-        );
+                rightEncoder.getRate());
     }
 
     public void stop() {

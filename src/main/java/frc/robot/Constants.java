@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -26,7 +32,6 @@ public final class Constants {
         public static final int ACTUATION_MOTOR_ID = 1;
         public static final int ACTUATION_LIMIT_SWITCH_ID = 4;
         public static final int INDEXER_MOTOR_ID = 3;
-
 
         // actuation configuration
         public static final double ACTUATION_MOTOR_GEAR_RATIO = 125;
@@ -70,5 +75,9 @@ public final class Constants {
         public static final double FEED_FORWARD_KA = 310.93;
 
         public static final double DRIVE_VELOCITY_KP = 1.8538;
+    }
+
+    public static final class Auto {
+        public static final Pose2d APRIL_TAG_POSITION = new Pose2d(); // TODO: real location??
     }
 }
