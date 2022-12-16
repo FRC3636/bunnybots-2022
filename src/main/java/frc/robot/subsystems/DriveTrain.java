@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveTrain implements Subsystem {
@@ -25,7 +26,7 @@ public class DriveTrain implements Subsystem {
     private final Spark rightMotor = new Spark(Constants.DriveTrain.RIGHT_MOTOR_PORT);
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor, rightMotor);
     private final AHRS navX = new AHRS();
-    private boolean doAssistOdometryUsingCamera = false;
+    private boolean doAssistOdometryUsingCamera = true;
     private Camera camera;
 
     private static final Pose2d aprilTagAbsolutePosition = Constants.Auto.APRIL_TAG_POSITION;
@@ -52,6 +53,9 @@ public class DriveTrain implements Subsystem {
                 / 4; // magic number that by all means shouldn't be here but is
         leftEncoder.setDistancePerPulse(distancePerPulse);
         rightEncoder.setDistancePerPulse(distancePerPulse);
+
+        // RobotContainer.odometryTab.addBoolean("Enable Camera-assisted odometry",
+        // null)
     }
 
     private void updateOdometryUsingCamera() {
@@ -59,7 +63,12 @@ public class DriveTrain implements Subsystem {
         if (targetRelative.isEmpty())
             return;
 
+        RobotContainer.odometryTab.addString("Relative Pose of April Tag (Translation, Rotation)", () -> {
+            return targetRelative.get().toString();
+        });
+
         Pose2d newOdometry = Camera.calculateRobotPositionOnField(aprilTagAbsolutePosition, targetRelative.get());
+
         resetOdometryTo(newOdometry);
         // System.out.println(String.format("Spotted april tag - inferred pose is: %s",
         // newOdometry));
