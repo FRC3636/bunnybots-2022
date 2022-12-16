@@ -26,15 +26,15 @@ public final class Constants {
         public static final double INTAKE_CONTROLLER_D = 0;
 
         // external identifiers
-        public static final int INTAKE_MOTOR_PORT = 2;
-        public static final int INTAKE_RESET_SWITCH_PORT = 0; // TODO Ask electrical
+        public static final int INTAKE_MOTOR_INDEX = 5;
+        public static final int INTAKE_RESET_SWITCH_PORT = 3; // TODO Ask electrical
     }
 
     public static final class DriveTrain {
-        public static final int RIGHT_MOTOR_PORT_MAIN = 1;
-        public static final int RIGHT_MOTOR_PORT_FOLLOWER = 2;
-        public static final int LEFT_MOTOR_PORT_MAIN = 3;
-        public static final int LEFT_MOTOR_PORT_FOLLOWER = 4;
+        public static final int RIGHT_MOTOR_INDEX_MAIN = 1;
+        public static final int RIGHT_MOTOR_INDEX_FOLLOWER = 2;
+        public static final int LEFT_MOTOR_INDEX_MAIN = 3;
+        public static final int LEFT_MOTOR_INDEX_FOLLOWER = 4;
 
         public static final double TRACK_WIDTH = 0.54; // in meters
 
@@ -45,8 +45,8 @@ public final class Constants {
     }
 
     public static final class Elevator {
-        public static final int ELEVATOR_MOTOR_PORT = 5;
-        public static final int ELEVATOR_DOOR_MOTOR_PORT = 0; // ask ***THEM***
+        public static final int ELEVATOR_MOTOR_PORT = 1;
+        public static final int ELEVATOR_DOOR_MOTOR_INDEX = 6; // ask ***THEM***
         public static final int DOOR_MOTOR_PDP_CHANNEL = 0; // ask ***THEM***
         public static final double MAX_DOOR_DRAW = 0; // ask ***THEM***
         public static final double ELEVATOR_MOTOR_SPEED = 0.5;

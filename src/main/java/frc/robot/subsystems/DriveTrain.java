@@ -17,20 +17,20 @@ public class DriveTrain implements Subsystem {
     // they are declared private because they should
     // never be accessed directly outside this subsystem
     private final CANSparkMax rightMotorMain = new CANSparkMax(
-            Constants.DriveTrain.RIGHT_MOTOR_PORT_MAIN,
+            Constants.DriveTrain.RIGHT_MOTOR_INDEX_MAIN,
             MotorType.kBrushed
     ); // has encoder
     private final CANSparkMax rightMotorFollower = new CANSparkMax(
-            Constants.DriveTrain.RIGHT_MOTOR_PORT_FOLLOWER,
+            Constants.DriveTrain.RIGHT_MOTOR_INDEX_FOLLOWER,
             MotorType.kBrushed
     );
     private final RelativeEncoder rightEncoder;
     private final CANSparkMax leftMotorMain = new CANSparkMax(
-            Constants.DriveTrain.LEFT_MOTOR_PORT_MAIN,
+            Constants.DriveTrain.LEFT_MOTOR_INDEX_MAIN,
             MotorType.kBrushed
     ); // has beans encoder
     private final CANSparkMax leftMotorFollower = new CANSparkMax(
-            Constants.DriveTrain.LEFT_MOTOR_PORT_FOLLOWER,
+            Constants.DriveTrain.LEFT_MOTOR_INDEX_FOLLOWER,
             MotorType.kBrushed
     );
     private final RelativeEncoder leftEncoder;

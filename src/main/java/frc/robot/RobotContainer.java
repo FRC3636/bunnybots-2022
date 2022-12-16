@@ -98,6 +98,9 @@ public class RobotContainer {
                 .whileHeld(new IntakeCommand(intake, Intake.State.Intake));
         new JoystickButton(controller, PS4Controller.Button.kL1.value)
                 .whileHeld(new IntakeCommand(intake, Intake.State.Outtake));
+
+        new JoystickButton(controller, PS4Controller.Button.kSquare.value).whenPressed(elevator::closeDoor);
+        new JoystickButton(controller, PS4Controller.Button.kCircle.value).whenPressed(elevator::openDoor);
     }
 
     /**
