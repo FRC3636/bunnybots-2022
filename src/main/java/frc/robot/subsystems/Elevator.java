@@ -59,7 +59,7 @@ public class Elevator implements Subsystem {
         elevatorMotor.set(VictorSPXControlMode.PercentOutput, percentOutput);
     }
 
-    public boolean doorStalled() {
+    public boolean isDoorStalled() {
         return powerDistribution.getCurrent(Constants.Elevator.DOOR_MOTOR_PDP_CHANNEL) > Constants.Elevator.MAX_DOOR_DRAW;
     }
 
