@@ -31,11 +31,11 @@ public class Intake implements Subsystem {
                 intakeMotor.set(-Constants.Intake.INTAKE_SPEED);
                 break;
             case Stop:
-                intakeMotor.set(positionController.calculate(intakeEncoder.getPosition(), Math.round(intakeEncoder.getPosition()) + Constants.Intake.INTAKE_STOP_POSITION));
+                double error = signedModularDistance(intakeEncoder.getPosition(), Constants.Intake.INTAKE_STOP_POSITION, 1);
+                intakeMotor.set(positionController.calculate(error));
                 break;
         }
     }
-
 
     public void setState(State state) {
         currentState = state;
@@ -45,5 +45,25 @@ public class Intake implements Subsystem {
         Intake,
         Outtake,
         Stop,
+    }
+
+    static double signedModularDistance(double a, double b, double modulus) {
+        a = (a % modulus + a) % modulus;
+        b = (b % modulus + b) % modulus;
+
+        double posDist, negDist;
+        if (b >= a) {
+            posDist = b - a;
+            negDist = a + (modulus - b);
+        } else {
+            posDist = b + (modulus - a);
+            negDist = a - b;
+        }
+
+        if (posDist > negDist) {
+            return posDist;
+        } else {
+            return -negDist;
+        }
     }
 }
