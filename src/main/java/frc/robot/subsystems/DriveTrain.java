@@ -91,6 +91,10 @@ public class DriveTrain implements Subsystem {
         robotDrive.tankDrive(left, right);
     }
 
+    public double getDistance() {
+        return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+    }
+
     public void tankDriveWithRawVoltage(double leftV, double rightV) {
         leftMotor.setVoltage(leftV);
         rightMotor.setVoltage(rightV);

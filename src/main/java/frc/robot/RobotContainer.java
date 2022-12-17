@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,15 +17,16 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.IndexCommand;
-import frc.robot.commands.IntakeCalibration;
-import frc.robot.commands.IntakeMotorOnlyCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+
+import java.util.Set;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -110,6 +112,24 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return null;
+        return new SequentialCommandGroup(
+                new DriveForwardDistance(driveTrain, Units.inchesToMeters(300 - 36)),
+                new Command() {
+                    @Override
+                    public void initialize() {
+                        elevator.setRunning(Elevator.Direction.Up);
+                    }
+
+                    @Override
+                    public boolean isFinished() {
+                        return false;
+                    }
+
+                    @Override
+                    public Set<Subsystem> getRequirements() {
+                        return Set.of(elevator);
+                    }
+                }
+        );
     }
 }
