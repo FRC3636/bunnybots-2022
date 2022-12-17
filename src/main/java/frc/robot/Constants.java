@@ -18,7 +18,7 @@ public final class Constants {
     public static final int PS4CONTROLLER_PORT = 2;
 
     public static final class Intake {
-        public static final double INTAKE_SPEED = 0.6;
+        public static final double INTAKE_SPEED = 0.3;
         public static final double INTAKE_STOP_POSITION = 0; // intake-signed rotations between the reset position and the stop position
 
         public static final double INTAKE_CONTROLLER_P = 0;
@@ -45,7 +45,7 @@ public final class Constants {
     }
 
     public static final class Elevator {
-        public static final int ELEVATOR_MOTOR_PORT = 0;
+        public static final int ELEVATOR_MOTOR_PORT = 1;
         public static final int ELEVATOR_DOOR_MOTOR_INDEX = 6;
         public static final int DOOR_MOTOR_PDP_CHANNEL = 3;
         public static final double MAX_DOOR_DRAW = 3;

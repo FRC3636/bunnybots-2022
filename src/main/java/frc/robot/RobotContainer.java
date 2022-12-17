@@ -5,7 +5,9 @@
 package frc.robot;
 
 import java.util.Optional;
+import java.util.Set;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,9 +19,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveForwardDistance;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.commands.ElevatorCommand;
@@ -44,13 +51,13 @@ public class RobotContainer {
 
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
+    public static XboxController controller = new XboxController(Constants.PS4CONTROLLER_PORT);
 
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<String>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     private static Optional<NetworkTableEntry> driveSchemeEntry = Optional.empty();
     public static Field2d field = new Field2d();
-    public static PS4Controller controller = new PS4Controller(Constants.PS4CONTROLLER_PORT);
 
     static {
         drivePresetsChooser.addOption("Default", DriveConfig.DEFAULT_PRESET_NAME);
@@ -94,13 +101,13 @@ public class RobotContainer {
         elevator.setDefaultCommand(new ElevatorCommand(elevator));
         intake.setDefaultCommand(new IntakeCommand(intake, Intake.State.Stop));
 
-        new JoystickButton(controller, PS4Controller.Button.kR1.value)
-                .whileHeld(new IntakeCommand(intake, Intake.State.Intake));
-        new JoystickButton(controller, PS4Controller.Button.kL1.value)
+        new Button(() -> {return controller.getLeftTriggerAxis() > 0;})
                 .whileHeld(new IntakeCommand(intake, Intake.State.Outtake));
+        new Button(() -> {return controller.getRightTriggerAxis() > 0;})
+                .whileHeld(new IntakeCommand(intake, Intake.State.Intake));
 
-        new JoystickButton(controller, PS4Controller.Button.kSquare.value).whenPressed(elevator::closeDoor);
-        new JoystickButton(controller, PS4Controller.Button.kCircle.value).whenPressed(elevator::openDoor);
+        new JoystickButton(controller, XboxController.Button.kX.value).whenPressed(elevator::closeDoor);
+        new JoystickButton(controller, XboxController.Button.kB.value).whenPressed(elevator::openDoor);
     }
 
     /**
@@ -110,6 +117,24 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return null;
+        return new SequentialCommandGroup(
+                new DriveForwardDistance(driveTrain, Units.inchesToMeters(300 - 36)),
+                new Command() {
+                    @Override
+                    public void initialize() {
+                        elevator.openDoor();
+                    }
+
+                    @Override
+                    public boolean isFinished() {
+                        return true;
+                    }
+
+                    @Override
+                    public Set<Subsystem> getRequirements() {
+                        return Set.of(elevator);
+                    }
+                }
+        );
     }
 }

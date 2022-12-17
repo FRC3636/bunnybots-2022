@@ -16,7 +16,7 @@ import frc.robot.RobotContainer;
 
 public class Elevator implements Subsystem {
 
-    private final VictorSPX elevatorMotor = new VictorSPX(Constants.Elevator.ELEVATOR_MOTOR_PORT);
+    private final VictorSP elevatorMotor = new VictorSP(Constants.Elevator.ELEVATOR_MOTOR_PORT);
     private final VictorSPX doorMotor = new VictorSPX(Constants.Elevator.ELEVATOR_DOOR_MOTOR_INDEX);
     private final PowerDistribution powerDistribution = new PowerDistribution();
     private final DigitalInput bottomLimitSwitch = new DigitalInput(
@@ -56,12 +56,14 @@ public class Elevator implements Subsystem {
     }
 
     public void moveElevator(double percentOutput) {
-        if ((topLimitSwitch.get() && percentOutput > 1) || (bottomLimitSwitch.get() && percentOutput < 1)) {
-            elevatorMotor.set(VictorSPXControlMode.PercentOutput, 0);
-            return;
-        }
+//        if ((topLimitSwitch.get() && percentOutput > 1) || (bottomLimitSwitch.get() && percentOutput < 1)) {
+//            elevatorMotor.set(0);
+//            return;
+//        }
+        SmartDashboard.putBoolean("Top Limit Switch", topLimitSwitch.get());
+        SmartDashboard.putBoolean("Bottom Limit Switch", bottomLimitSwitch.get());
 
-        elevatorMotor.set(VictorSPXControlMode.PercentOutput, percentOutput);
+        elevatorMotor.set(percentOutput);
     }
 
     public void moveDoor(double percentOutput) {

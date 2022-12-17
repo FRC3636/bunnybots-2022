@@ -43,7 +43,7 @@ public class DriveTrain implements Subsystem {
     public DriveTrain() {
         rightMotorFollower.follow(rightMotorMain);
         leftMotorFollower.follow(leftMotorMain);
-        leftMotorMain.setInverted(true);
+        rightMotorMain.setInverted(true);
 
         // TODO: get actual conversion factor
         // hopefully encoder type + countsPerRev is right
@@ -77,6 +77,10 @@ public class DriveTrain implements Subsystem {
 
     public void arcadeDrive(double speed, double rotation) {
         robotDrive.arcadeDrive(speed, rotation);
+    }
+
+    public double getDistance() {
+        return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
     }
 
     public void tankDrive(double left, double right) {
