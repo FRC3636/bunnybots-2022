@@ -27,6 +27,10 @@ public class Intake extends SubsystemBase {
 
     private double targetAngle = Constants.Intake.ACTUATION_DEGREES;
 
+    public Intake() {
+        intakeMotor.getEncoder().setPosition(78);
+    }
+
     // fixme: no protection against going backwards
     @Override
     public void periodic() {
@@ -53,6 +57,7 @@ public class Intake extends SubsystemBase {
                 if (bottomLimitSwitch.get()) {
                     actuationMotor.set(0);
                     actuationMotor.getEncoder().setPosition(0);
+                    position = Position.Coast;
                 } else {
                     actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
                 }
@@ -81,6 +86,7 @@ public class Intake extends SubsystemBase {
                 break;
             }
             case Coast: {
+                actuationMotor.set(0);
                 break;
             }
             default: {
