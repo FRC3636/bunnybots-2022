@@ -18,10 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.IndexCommand;
-import frc.robot.commands.IntakeCalibration;
-import frc.robot.commands.IntakeMotorOnlyCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -89,18 +86,17 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
-        new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
-        new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
-        new JoystickButton(controller, PS4Controller.Button.kR1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
-        new JoystickButton(controller, PS4Controller.Button.kL1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
+        new JoystickButton(controller, XboxController.Button.kRightBumper.value).whileHeld(new IntakeCommand(intake, IntakeCommand.Direction.In));
+        new JoystickButton(controller, XboxController.Button.kLeftBumper.value).whileHeld(new IntakeCommand(intake, IntakeCommand.Direction.Out));
 
         // whileActiveContinuous is the same as whileHeld
-        new JoystickButton(controller, PS4Controller.Button.kL2.value)
-                .or(new JoystickButton(joystickL, 1))
-                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Up));
-        new JoystickButton(controller, PS4Controller.Button.kR2.value)
+        new JoystickButton(controller, XboxController.Button.kY.value)
                 .or(new JoystickButton(joystickR, 1))
+                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Up));
+        new JoystickButton(controller, XboxController.Button.kA.value)
+                .or(new JoystickButton(joystickL, 1))
                 .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Down));
+
     }
 
     /**
