@@ -22,13 +22,13 @@ public class IntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
-        intake.goDown();
+//        intake.goDown();
         intake.setWheelSpeed(direction.speed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.goUp();
+//        intake.goUp();
         intake.stopWheels();
     }
 
