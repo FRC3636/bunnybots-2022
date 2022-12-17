@@ -55,6 +55,8 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
+        rightMotorFollower.follow(rightMotorMain);
+        leftMotorFollower.follow(leftMotorMain);
         double dl = leftEncoder.getPosition();
         double dr = rightEncoder.getPosition();
         double w = Constants.DriveTrain.TRACK_WIDTH;

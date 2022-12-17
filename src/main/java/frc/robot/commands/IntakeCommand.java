@@ -22,6 +22,6 @@ public class IntakeCommand implements Command {
 
     @Override
     public Set<Subsystem> getRequirements() {
-        return Set.of();
+        return Set.of(intake);
     }
 }

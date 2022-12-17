@@ -17,6 +17,10 @@ public class Intake implements Subsystem {
     private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     private State currentState = State.Stop;
 
+    public Intake() {
+        intakeMotor.setSmartCurrentLimit(20);
+    }
+
     @Override
     public void periodic() {
         if (resetSwitch.get()) {
