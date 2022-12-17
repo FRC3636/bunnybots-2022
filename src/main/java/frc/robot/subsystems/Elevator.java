@@ -12,10 +12,10 @@ public class Elevator extends SubsystemBase {
     public void setRunning(Direction direction) {
         switch (direction) {
             case Up:
-                elevatorMotor.set(Constants.Elevator.ELEVATOR_UP_SPEED);
+                elevatorMotor.set(-1 * Constants.Elevator.ELEVATOR_UP_SPEED);
                 break;
             case Down:
-                elevatorMotor.set(-1 * Constants.Elevator.ELEVATOR_DOWN_SPEED);
+                elevatorMotor.set(Constants.Elevator.ELEVATOR_DOWN_SPEED);
                 break;
         }
     }

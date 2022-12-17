@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,9 +27,14 @@ public class Intake extends SubsystemBase {
 
     private double targetAngle = Constants.Intake.ACTUATION_DEGREES;
 
+    public Intake() {
+        intakeMotor.getEncoder().setPosition(78);
+    }
+
     // fixme: no protection against going backwards
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("actuation limit switch", this.bottomLimitSwitch.get());
         switch (position) {
             case Up: {
                 if (this.getEncoderPositionDegrees() < targetAngle) {
@@ -51,6 +57,7 @@ public class Intake extends SubsystemBase {
                 if (bottomLimitSwitch.get()) {
                     actuationMotor.set(0);
                     actuationMotor.getEncoder().setPosition(0);
+                    position = Position.Coast;
                 } else {
                     actuationMotor.set(-Constants.Intake.ACTUATION_MOVE_DOWN_SPEED);
                 }
@@ -79,6 +86,7 @@ public class Intake extends SubsystemBase {
                 break;
             }
             case Coast: {
+                actuationMotor.set(0);
                 break;
             }
             default: {
@@ -126,7 +134,7 @@ public class Intake extends SubsystemBase {
 
     public void setWheelSpeed(double speed) {
         intakeMotor.set(speed * Constants.Intake.INTAKE_SPEED);
-        indexerMotor.set(-speed * 0.25);
+        indexerMotor.set(-speed * 1);//no constant :(
     }
 
     public enum Position {

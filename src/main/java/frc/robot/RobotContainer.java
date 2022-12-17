@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.DriveConfig.DriveScheme;
 import frc.robot.commands.*;
@@ -44,7 +45,7 @@ public class RobotContainer {
     private final Elevator elevator = new Elevator();
     public static final Joystick joystickL = new Joystick(Constants.JOYSTICK_LEFT_PORT);
     public static final Joystick joystickR = new Joystick(Constants.JOYSTICK_RIGHT_PORT);
-    public static final PS4Controller controller = new PS4Controller(Constants.INDEX_BUTTON);
+    public static final XboxController controller = new XboxController(Constants.INDEX_BUTTON);
     public static final SendableChooser<String> drivePresetsChooser = new SendableChooser<>();
     private static final ShuffleboardTab driveSettings = Shuffleboard.getTab("Drive Settings");
     public static final ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
@@ -91,18 +92,21 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain));
-        new JoystickButton(joystickL, 3).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Up));
-        new JoystickButton(joystickL, 2).whenPressed(new IntakeCalibration(intake, IntakeCalibration.Direction.Down));
-        new JoystickButton(controller, PS4Controller.Button.kR1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.In));
-        new JoystickButton(controller, PS4Controller.Button.kL1.value).whileHeld(new IntakeMotorOnlyCommand(intake, IntakeMotorOnlyCommand.Direction.Out));
+        new JoystickButton(controller, XboxController.Button.kRightBumper.value).whileHeld(new IntakeCommand(intake, IntakeCommand.Direction.In));
+        new JoystickButton(controller, XboxController.Button.kLeftBumper.value).whileHeld(new IntakeCommand(intake, IntakeCommand.Direction.Out));
+
+        new Button(() -> {return controller.getRightTriggerAxis() > 0;}).whenPressed(intake::goDown);
+        new Button(() -> {return controller.getLeftTriggerAxis() > 0;}).whenPressed(intake::goUp);
+
 
         // whileActiveContinuous is the same as whileHeld
-        new JoystickButton(controller, PS4Controller.Button.kL2.value)
-                .or(new JoystickButton(joystickL, 1))
-                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Up));
-        new JoystickButton(controller, PS4Controller.Button.kR2.value)
+        new JoystickButton(controller, XboxController.Button.kY.value)
                 .or(new JoystickButton(joystickR, 1))
+                .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Up));
+        new JoystickButton(controller, XboxController.Button.kA.value)
+                .or(new JoystickButton(joystickL, 1))
                 .whileActiveContinuous(new IndexCommand(elevator, Elevator.Direction.Down));
+
     }
 
     /**
